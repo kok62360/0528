@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>REDOOR VINYL</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+
+    width:100%;
+    height:100vh;
+
+    overflow:hidden;
+
+    background:black;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    font-family:Arial, sans-serif;
+}
+
+/* 배경 */
+.bg{
+
+    position:absolute;
+
+    width:100%;
+    height:100%;
+
+    background-size:cover;
+    background-position:center;
+
+    filter:
+    blur(18px)
+    brightness(.45);
+
+    transform:scale(1.05);
+
+    transition:1s;
+}
+
+/* 노이즈 */
+.noise{
+
+    position:absolute;
+
+    width:100%;
+    height:100%;
+
+    background-image:
+    radial-gradient(rgba(255,255,255,.08) 1px, transparent 1px);
+
+    background-size:3px 3px;
+
+    opacity:.08;
+
+    mix-blend-mode:soft-light;
+}
+
+/* 메인 */
+.wrap{
+
+    position:relative;
+
+    width:500px;
+    height:500px;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+/* LP */
+.cd{
+
+    position:absolute;
+
+    width:380px;
+    height:380px;
+
+    right:-10px;
+
+    z-index:1;
+
+    animation:spin 5s linear infinite;
+}
+
+/* 회전 */
+@keyframes spin{
+
+    from{
+        transform:
+        translateX(90px)
+        rotate(0deg);
+    }
+
+    to{
+        transform:
+        translateX(90px)
+        rotate(360deg);
+    }
+}
+
+/* 앨범 커버 */
+.cover{
+
+    position:absolute;
+
+    width:340px;
+    height:340px;
+
+    object-fit:cover;
+
+    z-index:2;
+
+    border-radius:10px;
+
+    box-shadow:
+    0 20px 60px rgba(0,0,0,.5);
+}
+
+/* 텍스트 */
+.title{
+
+    position:absolute;
+
+    bottom:50px;
+    left:50px;
+
+    color:white;
+
+    z-index:10;
+}
+
+.title h1{
+
+    font-size:60px;
+
+    letter-spacing:-3px;
+}
+
+.title p{
+
+    margin-top:10px;
+
+    color:rgba(255,255,255,.6);
+
+    letter-spacing:4px;
+
+    font-size:13px;
+}
+
+/* 모바일 */
+@media(max-width:768px){
+
+    .wrap{
+        width:300px;
+        height:300px;
+    }
+
+    .cover{
+        width:220px;
+        height:220px;
+    }
+
+    .cd{
+        width:240px;
+        height:240px;
+    }
+
+    .title{
+        left:25px;
+        bottom:25px;
+    }
+
+    .title h1{
+        font-size:38px;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- 블러 배경 -->
+<div class="bg" id="bg"></div>
+
+<!-- 노이즈 -->
+<div class="noise"></div>
+
+<!-- 메인 -->
+<div class="wrap">
+
+    <!-- LP -->
+    <img class="cd" src="cd.png">
+
+    <!-- 앨범 -->
+    <img class="cover" id="cover" src="1.webp">
+
+</div>
+
+<!-- 텍스트 -->
+<div class="title">
+
+    <h1>REDOOR</h1>
+    <p id="album-title">영원은 그렇듯</p>
+
+</div>
+
+<script>
+
+/* 앨범 데이터 */
+const albums = [
+
+{
+    image:"eternal.webp",
+    title:"영원은 그렇듯"
+},
+
+{
+    image:"love.webp",
+    title:"사랑의 미학"
+},
+
+{
+    image:"snow8.webp",
+    title:"snow8"
+},
+
+{
+    image:"blue.webp",
+    title:"내 방안은 푸른 바다"
+},
+
+{
+    image:"hospital.webp",
+    title:"Hospital"
+}
+
+];
+
+const cover = document.getElementById("cover");
+const bg = document.getElementById("bg");
+const title = document.getElementById("album-title");
+
+let current = 0;
+
+/* 초기 배경 */
+bg.style.backgroundImage =
+`url(${albums[0].image})`;
+
+setInterval(() => {
+
+    current++;
+
+    if(current >= albums.length){
+
+        current = 0;
+    }
+
+    /* 커버 변경 */
+    cover.src = albums[current].image;
+
+    /* 배경 변경 */
+    bg.style.backgroundImage =
+    `url(${albums[current].image})`;
+
+    /* 제목 변경 */
+    title.textContent =
+    albums[current].title;
+
+}, 3500);
+
+</script>
+
+</body>
+</html>
